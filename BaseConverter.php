@@ -3,6 +3,8 @@
 namespace mdm\converter;
 
 use yii\base\NotSupportedException;
+use Yii;
+use yii\helpers\VarDumper;
 
 /**
  * Description of BaseConverter
@@ -18,6 +20,13 @@ class BaseConverter extends \yii\base\Behavior
     {
         if (isset($this->attributes[$name])) {
             $attrValue = $this->owner->{$this->attributes[$name]};
+            try {
+                $trace = "Get logical value of {$name}, original value is ";
+                $trace .= VarDumper::dumpAsString($attrValue);
+                Yii::trace($trace, static::className());
+            } catch (\Exception $exc) {
+                
+            }
             return $this->convertToLogical($attrValue);
         } else {
             return parent::__get($name);
@@ -27,6 +36,13 @@ class BaseConverter extends \yii\base\Behavior
     public function __set($name, $value)
     {
         if (isset($this->attributes[$name])) {
+            try {
+                $trace = "Set physical value of {$name}, original value is ";
+                $trace .= VarDumper::dumpAsString($value);
+                Yii::trace($trace, static::className());
+            } catch (\Exception $exc) {
+                
+            }
             $this->owner->{$this->attributes[$name]} = $this->convertToPhysical($value);
         } else {
             parent::__set($name, $value);

@@ -32,7 +32,7 @@ public function behaviors()
         [
             'class' => 'mdm\converter\DateConverter',
             'logicalFormat' => 'd/m/Y', // your readeble datetime format, default to 'd-m-Y'
-            'logicalFormat' => 'Y-m-d', // database level format, default to 'Y-m-d'
+            'physicalFormat' => 'Y-m-d', // database level format, default to 'Y-m-d'
             'attributes' => [
                 'salesDate' => 'sales_date', // sales_date is original attribute
             ]

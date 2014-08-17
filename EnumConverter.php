@@ -14,25 +14,25 @@ class EnumConverter extends BaseConverter
 {
     /**
      *
-     * @var array 
+     * @var array
      */
     public $enum = [];
 
     /**
      *
-     * @var string 
+     * @var string
      */
     public $enumPrefix = '';
 
     /**
      *
-     * @var boolean 
+     * @var boolean
      */
     public $toWord = true;
 
     /**
      *
-     * @var array 
+     * @var array
      */
     private static $_maps = [];
 
@@ -57,6 +57,7 @@ class EnumConverter extends BaseConverter
         }
 
         $str = isset(static::$_maps[$className][$value]) ? static::$_maps[$className][$value] : '';
+
         return $this->toWord ? Inflector::camel2words(strtolower($str)) : $str;
     }
 }

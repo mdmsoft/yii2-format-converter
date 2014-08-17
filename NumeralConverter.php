@@ -18,6 +18,7 @@ class NumeralConverter extends BaseConverter
         if ($value === null || $value === '') {
             return $value;
         }
+
         return number_format($value, $this->decimals, $this->decimal_point, $this->thousands_sep);
     }
 
@@ -27,6 +28,7 @@ class NumeralConverter extends BaseConverter
             return $value;
         }
         $number = explode($this->decimal_point, $value, 2);
+
         return str_replace($this->thousands_sep, '', $number[0]) . (isset($number[1]) ? '.' . $number[1] : '');
     }
 }

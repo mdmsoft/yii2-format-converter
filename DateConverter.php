@@ -18,6 +18,7 @@ class DateConverter extends BaseConverter
             return null;
         }
         $date = @date_create_from_format($this->physicalFormat, $value);
+
         return $date === false ? null : $date->format($this->logicalFormat);
     }
 
@@ -28,6 +29,7 @@ class DateConverter extends BaseConverter
             return null;
         }
         $date = @date_create_from_format($this->logicalFormat, $value);
+
         return $date === false ? null : $date->format($this->physicalFormat);
     }
 }

@@ -25,8 +25,9 @@ class BaseConverter extends \yii\base\Behavior
                 $trace .= VarDumper::dumpAsString($attrValue);
                 Yii::trace($trace, static::className());
             } catch (\Exception $exc) {
-                
+
             }
+
             return $this->convertToLogical($attrValue);
         } else {
             return parent::__get($name);
@@ -41,7 +42,7 @@ class BaseConverter extends \yii\base\Behavior
                 $trace .= VarDumper::dumpAsString($value);
                 Yii::trace($trace, static::className());
             } catch (\Exception $exc) {
-                
+
             }
             $this->owner->{$this->attributes[$name]} = $this->convertToPhysical($value);
         } else {

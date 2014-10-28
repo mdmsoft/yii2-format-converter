@@ -34,7 +34,7 @@ class EnumConverter extends BaseConverter
      *
      * @var array
      */
-    private static $_maps = [];
+    private static $_constants = [];
 
     protected function convertToLogical($value)
     {
@@ -46,17 +46,17 @@ class EnumConverter extends BaseConverter
             return $this->enum[$value];
         }
         $className = get_class($this->owner);
-        if (!isset(static::$_maps[$className])) {
+        if (!isset(static::$_constants[$className])) {
             $ref = new ReflectionClass($className);
-            static::$_maps[$className] = [];
+            static::$_constants[$className] = [];
             foreach ($ref->getConstants() as $constName => $constValue) {
                 if ($this->enumPrefix === '' || strpos($constName, $this->enumPrefix) === 0) {
-                    static::$_maps[$className][$constValue] = substr($constName, strlen($this->enumPrefix));
+                    static::$_constants[$className][$constValue] = substr($constName, strlen($this->enumPrefix));
                 }
             }
         }
 
-        $str = isset(static::$_maps[$className][$value]) ? static::$_maps[$className][$value] : '';
+        $str = isset(static::$_constants[$className][$value]) ? static::$_constants[$className][$value] : '';
 
         return $this->toWord ? Inflector::camel2words(strtolower($str)) : $str;
     }

@@ -70,3 +70,63 @@ echo $form->field($model, 'Date')
 ]);
 ```
 
+# RelatedConverter Behavior
+
+Convert `id` to `name` of related model
+
+```php
+// attach to model
+public function behaviors()
+{
+    return [
+        [
+            'class' => 'mdm\converter\RelatedConverter',
+            'attributes => [
+                'supplierName' => ['supplier', 'name'], // use avaliable relation
+                'branchName' => [[Branch::className(), 'id' => 'branch_id'], 'name'], // use classname
+            ]
+        ],
+    ];
+}
+
+// usage
+$model->supplierName = 'Donquixote Family';
+$model->branchName = 'North Blue';
+
+// in form
+<?= $form->field($model,'supplierName'); ?>
+
+```
+
+# EnumConverter Behavior
+
+Use to convert constant value to constant name (readonly).
+
+```php
+class Post extends ActiveRecord
+{
+    const STATUS_DRAFT = 1;
+    const STATUS_PUBLISHED = 2;
+    const STATUS_DELETED = 3;
+
+    ...
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => 'mdm\converter\EnumConverter',
+                'attributes => [
+                    'statusName' => 'status', // 
+                ],
+                'prefix' => 'STATUS_'
+            ],
+        ];
+    }
+}
+
+// usage
+$model->status = Post::STATUS_PUBLISHED;
+
+echo $model->statusName; // return Published
+```

@@ -8,13 +8,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require mdmsoft//yii2-format-converter "dev-master"
+php composer.phar require mdmsoft//yii2-format-converter "*"
 ```
 
 or add
 
 ```
-"mdmsoft//yii2-format-converter": "dev-master"
+"mdmsoft//yii2-format-converter": "*"
 ```
 
 to the require section of your `composer.json` file.

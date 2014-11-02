@@ -2,9 +2,8 @@
 
 namespace mdm\converter;
 
-use yii\base\NotSupportedException;
 use Yii;
-use yii\helpers\VarDumper;
+use yii\base\NotSupportedException;
 
 /**
  * Description of BaseConverter
@@ -13,63 +12,90 @@ use yii\helpers\VarDumper;
  */
 class BaseConverter extends \yii\base\Behavior
 {
+    /**
+     * @var array Attribute map for logical to physical
+     */
     public $attributes = [];
+
+    /**
+     * @var \Closure callback to check value is empty
+     * 
+     * ```php
+     * function($value){
+     * 
+     * }
+     * ```
+     */
     public $isEmpty;
 
+    /**
+     * @inheritdoc
+     */
     public function __get($name)
     {
         if (isset($this->attributes[$name])) {
             $attrValue = $this->owner->{$this->attributes[$name]};
-            try {
-                $trace = "Get logical value of {$name}, original value is ";
-                $trace .= VarDumper::dumpAsString($attrValue);
-                Yii::trace($trace, static::className());
-            } catch (\Exception $exc) {
-
-            }
-
-            return $this->convertToLogical($attrValue);
+            return $this->convertToLogical($attrValue,$name);
         } else {
             return parent::__get($name);
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     public function __set($name, $value)
     {
         if (isset($this->attributes[$name])) {
-            try {
-                $trace = "Set physical value of {$name}, original value is ";
-                $trace .= VarDumper::dumpAsString($value);
-                Yii::trace($trace, static::className());
-            } catch (\Exception $exc) {
-
-            }
-            $this->owner->{$this->attributes[$name]} = $this->convertToPhysical($value);
+            $this->owner->{$this->attributes[$name]} = $this->convertToPhysical($value,$name);
         } else {
             parent::__set($name, $value);
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     public function canGetProperty($name, $checkVars = true)
     {
         return isset($this->attributes[$name]) || parent::canGetProperty($name, $checkVars);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function canSetProperty($name, $checkVars = true)
     {
         return isset($this->attributes[$name]) || parent::canSetProperty($name, $checkVars);
     }
 
-    protected function convertToPhysical($value)
+    /**
+     * Convert value to physical format
+     * @param mixed $value value to converted
+     * @param string $attribute Logical attribute
+     * @return mixed Converted value
+     */
+    protected function convertToPhysical($value, $attribute)
     {
         throw new NotSupportedException(get_class($this) . ' does not support convertToPhysical().');
     }
 
-    protected function convertToLogical($value)
+    /**
+     * Convert value to logical format
+     * @param mixed $value value to converted
+     * @param string $attribute Logical attribute
+     * @return mixed Converted value
+     */
+    protected function convertToLogical($value, $attribute)
     {
         throw new NotSupportedException(get_class($this) . ' does not support convertToLogical().');
     }
 
+    /**
+     * Check empty value
+     * @param mixed $value
+     * @return boolean
+     */
     public function isEmpty($value)
     {
         if ($this->isEmpty !== null) {

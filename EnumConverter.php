@@ -13,30 +13,29 @@ use yii\helpers\Inflector;
 class EnumConverter extends BaseConverter
 {
     /**
-     *
      * @var array
      */
     public $enum = [];
 
     /**
-     *
      * @var string
      */
     public $enumPrefix = '';
 
     /**
-     *
      * @var boolean
      */
     public $toWord = true;
 
     /**
-     *
      * @var array
      */
     private static $_constants = [];
 
-    protected function convertToLogical($value)
+    /**
+     * @inheritdoc
+     */
+    protected function convertToLogical($value, $attribute)
     {
         if ($this->isEmpty($value)) {
             return null;

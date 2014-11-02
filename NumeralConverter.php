@@ -9,11 +9,25 @@ namespace mdm\converter;
  */
 class NumeralConverter extends BaseConverter
 {
+    /**
+     * @var string Thousands separator 
+     */
     public $thousands_sep = ',';
+
+    /**
+     * @var string Decimal point 
+     */
     public $decimal_point = '.';
+
+    /**
+     * @var integer Decimal precision
+     */
     public $decimals = 0;
 
-    protected function convertToLogical($value)
+    /**
+     * @inheritdoc
+     */
+    protected function convertToLogical($value, $attribute)
     {
         if ($value === null || $value === '') {
             return $value;
@@ -22,7 +36,10 @@ class NumeralConverter extends BaseConverter
         return number_format($value, $this->decimals, $this->decimal_point, $this->thousands_sep);
     }
 
-    protected function convertToPhysical($value)
+    /**
+     * @inheritdoc
+     */
+    protected function convertToPhysical($value, $attribute)
     {
         if ($value === null || $value === '') {
             return $value;

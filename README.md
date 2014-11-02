@@ -8,13 +8,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require mdmsoft//yii2-format-converter "*"
+php composer.phar require mdmsoft//yii2-format-converter "dev-master"
 ```
 
 or add
 
 ```
-"mdmsoft//yii2-format-converter": "*"
+"mdmsoft//yii2-format-converter": "dev-master"
 ```
 
 to the require section of your `composer.json` file.
@@ -25,23 +25,28 @@ Usage
 
 Once the extension is installed, simply modify your ActiveRecord class:
 
+# DateConverter Behavior
+Use to convert date format from database format to logical format
+
 ```php
 public function behaviors()
 {
     return [
         [
             'class' => 'mdm\converter\DateConverter',
-            'logicalFormat' => 'd/m/Y', // your readeble datetime format, default to 'd-m-Y'
-            'physicalFormat' => 'Y-m-d', // database level format, default to 'Y-m-d'
+            'type' => 'date', // 'date', 'time', 'datetime'
+            'logicalFormat' => 'php:d/m/Y', // default to locale format
+            'physicalFormat' => 'php:Y-m-d', // database level format, default to 'Y-m-d'
             'attributes' => [
-                'salesDate' => 'sales_date', // sales_date is original attribute
+                'Date' => 'date', // date is original attribute
             ]
         ],
         ...
     ]
 }
 ```
-then add attribute `salesDate` to your model rules.
+
+then add attribute `Date` to your model rules.
 
 ```php
 // in view view.php
@@ -50,20 +55,18 @@ echo DetailView::widget([
 	'model' => $model,
 	'attributes' => [
 		'sales_num',
-		'idSupplier.nm_supplier',
-		'salesDate', // use attribute 'salesDate' instead of 'sales_date'
+		'supplier.name',
+		'Date', // use attribute 'Date' instead of 'sales_date'
 		'nmStatus',
 	],
 ]);
 
 
 // in view _form.php 
-echo $form->field($model, 'salesDate') // use attribute 'salesDate' instead of 'sales_date'
+echo $form->field($model, 'Date')
 	->widget('yii\jui\DatePicker', [
 		'options' => ['class' => 'form-control', 'style' => 'width:50%'],
-		'clientOptions' => [
-			'dateFormat' => 'dd/mm/yy', 
-		],
+		'dateFormat' => 'php:d/m/Y', 
 ]);
-
 ```
+

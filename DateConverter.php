@@ -8,7 +8,23 @@ use yii\helpers\FormatConverter;
 /**
  * Description of DateConverter
  *
- * @author Misbahul D Munir (mdmunir) <misbahuldmunir@gmail.com>
+ * ~~~
+ * // attach as behavior
+ * [
+ *     'class' => 'mdm\converter\DateConverter',
+ *     'logicalFormat' => 'php:d/m/Y',
+ *     'attributes => [
+ *         'createdDate' => 'created_date',
+ *         'deliveryDate' => 'delivery_date',
+ *     ]
+ * ]
+ * 
+ * // then attribute directly
+ * $model->createdDate = '24/10/2014'; // equivalent with $model->created_date = '2014-10-24'
+ * ~~~
+ *
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class DateConverter extends BaseConverter
 {

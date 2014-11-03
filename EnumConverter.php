@@ -6,9 +6,11 @@ use \ReflectionClass;
 use yii\helpers\Inflector;
 
 /**
- * Description of EnumConverter
+ * EnumConverter
+ * Get constant name instead of constant value.
  *
- * @author Misbahul D Munir (mdmunir) <misbahuldmunir@gmail.com>
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class EnumConverter extends BaseConverter
 {

@@ -8,7 +8,8 @@ use yii\base\NotSupportedException;
 /**
  * Description of BaseConverter
  *
- * @author Misbahul D Munir (mdmunir) <misbahuldmunir@gmail.com>
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class BaseConverter extends \yii\base\Behavior
 {

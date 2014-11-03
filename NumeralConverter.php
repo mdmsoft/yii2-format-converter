@@ -3,9 +3,11 @@
 namespace mdm\converter;
 
 /**
- * Description of NumeralConverter
+ * NumeralConverter
+ * Change number format
  *
- * @author Misbahul D Munir (mdmunir) <misbahuldmunir@gmail.com>
+ * @author Misbahul D Munir <misbahuldmunir@gmail.com>
+ * @since 1.0
  */
 class NumeralConverter extends BaseConverter
 {

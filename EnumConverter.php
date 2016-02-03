@@ -46,19 +46,60 @@ class EnumConverter extends BaseConverter
         if (isset($this->enum[$value])) {
             return $this->enum[$value];
         }
-        $className = get_class($this->owner);
-        if (!isset(self::$_constants[$className][$this->enumPrefix])) {
+        $names = static::names($this->owner, $this->enumPrefix);
+
+        $str = isset($names[$value]) ? $names[$value] : '';
+
+        return $this->toWord ? Inflector::camel2words(strtolower($str)) : $str;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function convertToPhysical($name, $attribute)
+    {
+        foreach ($this->enum as $value => $const) {
+            if ($const == $name) {
+                return $value;
+            }
+        }
+
+        $values = static::values($this->owner, $this->enumPrefix);
+        return isset($values[strtoupper($name)]) ? $values[strtoupper($name)] : null;
+    }
+
+    /**
+     * Get all constant value
+     * @param string $className
+     * @param string $prefix
+     * @return array
+     */
+    public static function values($className, $prefix = '')
+    {
+        if (is_object($className)) {
+            $className = get_class($className);
+        }
+        if (!isset(self::$_constants[$className][$prefix])) {
             $ref = new ReflectionClass($className);
-            self::$_constants[$className][$this->enumPrefix] = [];
+            self::$_constants[$className][$prefix] = [];
             foreach ($ref->getConstants() as $constName => $constValue) {
-                if ($this->enumPrefix === '' || strpos($constName, $this->enumPrefix) === 0) {
-                    self::$_constants[$className][$this->enumPrefix][$constValue] = substr($constName, strlen($this->enumPrefix));
+                if ($prefix === '' || strpos($constName, $prefix) === 0) {
+                    self::$_constants[$className][$prefix][substr($constName, strlen($prefix))] = $constValue;
                 }
             }
         }
 
-        $str = isset(self::$_constants[$className][$this->enumPrefix][$value]) ? self::$_constants[$className][$this->enumPrefix][$value] : '';
+        return self::$_constants[$className][$prefix];
+    }
 
-        return $this->toWord ? Inflector::camel2words(strtolower($str)) : $str;
+    /**
+     * Get all constant name
+     * @param string $className
+     * @param string $prefix
+     * @return array
+     */
+    public static function names($className, $prefix = '')
+    {
+        return array_flip(static::values($className, $prefix));
     }
 }

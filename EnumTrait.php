@@ -18,7 +18,7 @@ trait EnumTrait
      */
     public static function enums($prefix = '')
     {
-        return EnumConverter::names($this, $prefix);
+        return EnumConverter::names(get_called_class(), $prefix);
     }
 
     /**
@@ -28,6 +28,6 @@ trait EnumTrait
      */
     public static function constants($prefix = '')
     {
-        return EnumConverter::values($this, $prefix);
+        return EnumConverter::values(get_called_class(), $prefix);
     }
 }

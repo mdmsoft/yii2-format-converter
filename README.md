@@ -100,7 +100,7 @@ $model->branchName = 'North Blue';
 
 # EnumConverter Behavior
 
-Use to convert constant value to constant name (readonly).
+Use to convert constant value to constant name.
 
 ```php
 class Post extends ActiveRecord
@@ -129,4 +129,40 @@ class Post extends ActiveRecord
 $model->status = Post::STATUS_PUBLISHED;
 
 echo $model->statusName; // return Published
+```
+
+# EnumTrait
+
+Use to get list of constant
+
+```php
+class Post extends ActiveRecord
+{
+    use \mdm\converter\EnumTrait;
+
+    const STATUS_DRAFT = 1;
+    const STATUS_PUBLISHED = 2;
+    const STATUS_DELETED = 3;
+    
+}
+
+// usage
+Post::enums('STATUS_');
+/*
+[
+    1 => 'DRAFT',
+    2 => 'PUBLISHED',
+    3 => 'DELETED',
+]
+*/ 
+
+Post::constants('STATUS_');
+/*
+[
+    'DRAFT' => 1,
+    'PUBLISHED' => 2,
+    'DELETED' => 3,
+]
+*/ 
+
 ```

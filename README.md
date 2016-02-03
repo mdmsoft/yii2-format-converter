@@ -140,6 +140,9 @@ class Post extends ActiveRecord
 {
     use \mdm\converter\EnumTrait;
 
+    protected $enumAttributes = [
+        'nmStatus' => ['status', 'STATUS_'],
+    ];
     const STATUS_DRAFT = 1;
     const STATUS_PUBLISHED = 2;
     const STATUS_DELETED = 3;
@@ -147,6 +150,11 @@ class Post extends ActiveRecord
 }
 
 // usage
+$model->nmStatus = 'DRAFT'; // eq $model->status = 1;
+
+$model->status = 2;
+echo $model->nmStatus; // return PUBLISHED;
+
 Post::enums('STATUS_');
 /*
 [

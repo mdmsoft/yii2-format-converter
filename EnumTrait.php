@@ -1,6 +1,7 @@
 <?php
 
 namespace mdm\converter;
+
 use ReflectionClass;
 
 /**
@@ -15,7 +16,7 @@ trait EnumTrait
      * @var array
      */
     private static $_constants = [];
-    
+
     /**
      * Get all constant name
      * @param string $prefix
@@ -48,37 +49,19 @@ trait EnumTrait
         return self::$_constants[$className][$prefix];
     }
 
-    /**
-     *
-     * @param string $name
-     * @return type
-     */
-    public function __get($name)
+    protected function getLogical($attribute, $prefix)
     {
-        if (isset($this->enumAttributes, $this->enumAttributes[$name])) {
-            list($attr, $prefix) = $this->enumAttributes[$name];
-            $enums = static::enums($prefix);
-            return isset($enums[$this->$attr]) ? $enums[$this->$attr] : null;
-        } else {
-            return parent::__get($name);
-        }
+        $enums = static::enums($prefix);
+        return isset($enums[$this->$attribute]) ? $enums[$this->$attribute] : null;
     }
 
-    /**
-     *
-     * @param string $name
-     * @param mixed $value
-     */
-    public function __set($name, $value)
+    protected function setLogical($attribute, $prefix, $value)
     {
-        if (isset($this->enumAttributes, $this->enumAttributes[$name])) {
-            list($attr, $prefix) = $this->enumAttributes[$name];
-            $constant = static::constants($prefix);
-            if (isset($constant[strtoupper($value)])) {
-                $this->$attr = $constant[strtoupper($value)];
-            }
-        } else {
-            parent::__set($name, $value);
+        $constant = static::constants($prefix);
+        if (isset($constant[strtoupper($value)])) {
+            $this->$attribute = $constant[strtoupper($value)];
+        } elseif ($value === null) {
+            $this->$attribute = null;
         }
     }
 }

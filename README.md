@@ -139,13 +139,20 @@ Use to get list of constant
 class Post extends ActiveRecord
 {
     use \mdm\converter\EnumTrait;
-
-    protected $enumAttributes = [
-        'nmStatus' => ['status', 'STATUS_'],
-    ];
+    
     const STATUS_DRAFT = 1;
     const STATUS_PUBLISHED = 2;
     const STATUS_DELETED = 3;
+
+    public function getNmStatus()
+    {
+        return $this->getLogical('status', 'STATUS_');
+    }
+    
+    public function setNmStatus($value)
+    {
+        return $this->setLogical('status', 'STATUS_', $value);
+    }
     
 }
 

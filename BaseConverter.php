@@ -36,7 +36,7 @@ class BaseConverter extends \yii\base\Behavior
     {
         if (isset($this->attributes[$name])) {
             $attrValue = $this->owner->{$this->attributes[$name]};
-            return $this->convertToLogical($attrValue,$name);
+            return $this->convertToLogical($attrValue, $name);
         } else {
             return parent::__get($name);
         }
@@ -48,7 +48,7 @@ class BaseConverter extends \yii\base\Behavior
     public function __set($name, $value)
     {
         if (isset($this->attributes[$name])) {
-            $this->owner->{$this->attributes[$name]} = $this->convertToPhysical($value,$name);
+            $this->owner->{$this->attributes[$name]} = $this->convertToPhysical($value, $name);
         } else {
             parent::__set($name, $value);
         }

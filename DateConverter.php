@@ -13,7 +13,7 @@ use yii\helpers\FormatConverter;
  * [
  *     'class' => 'mdm\converter\DateConverter',
  *     'logicalFormat' => 'php:d/m/Y',
- *     'attributes => [
+ *     'attributes' => [
  *         'createdDate' => 'created_date',
  *         'deliveryDate' => 'delivery_date',
  *     ]
